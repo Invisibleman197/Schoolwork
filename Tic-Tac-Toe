@@ -1,0 +1,96 @@
+"""
+Tic Tac Toe
+
+author: (Invisibleman197)
+email: (lukyjedi006@gmail.com)
+"""
+
+# Entry text
+print("Welcome to Tic Tac Toe")
+print("=" * 44)
+print("GAME RULES:")
+print("Each player can place one mark per turn")
+print("on the 3x3 grid. The WINNER is who succeeds")
+print("in placing three of their marks in a:")
+print("* horizontal,")
+print("* vertical or")
+print("* diagonal row")
+print("=" * 44)
+print("Let's start the game")
+print("-" * 44)
+
+# Game board
+board = [" "] * 9
+
+# Board setup function
+def draw_board():
+    print("+---+---+---+")
+    print(f"| {board[0]} | {board[1]} | {board[2]} |")
+    print("+---+---+---+")
+    print(f"| {board[3]} | {board[4]} | {board[5]} |")
+    print("+---+---+---+")
+    print(f"| {board[6]} | {board[7]} | {board[8]} |")
+    print("+---+---+---+")
+
+# Victory control
+def check_winner(player):
+    win_combinations = [
+        (0,1,2), (3,4,5), (6,7,8),   # horizontální
+        (0,3,6), (1,4,7), (2,5,8),   # vertikální
+        (0,4,8), (2,4,6)             # diagonální
+    ]
+    for a, b, c in win_combinations:
+        if board[a] == board[b] == board[c] == player:
+            return True
+    return False
+
+# Tie control
+def check_draw():
+    return " " not in board
+
+# Main game
+current_player = "O"
+
+draw_board()
+
+while True:
+    print("=" * 44)
+    move = input(f"Player {current_player} | Please enter your move number (1-9): ")
+
+    # Number input control
+    if not move.isdigit():
+        print("Invalid input! Please enter a number.")
+        continue
+
+    move = int(move)
+
+    # Range control
+    if move < 1 or move > 9:
+        print("Invalid number! Choose between 1 and 9.")
+        continue
+
+    # Position occupation control
+    if board[move - 1] != " ":
+        print("This field is already occupied!")
+        continue
+
+    # Move evidence
+    board[move - 1] = current_player
+    draw_board()
+
+    # Victory control
+    if check_winner(current_player):
+        print("=" * 44)
+        print(f"Congratulations, the player {current_player} WON!")
+        print("=" * 44)
+        break
+
+    # Tie control
+    if check_draw():
+        print("=" * 44)
+        print("It's a DRAW!")
+        print("=" * 44)
+        break
+
+    # Player switch
+    current_player = "X" if current_player == "O" else "O"
